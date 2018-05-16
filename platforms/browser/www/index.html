@@ -5,50 +5,80 @@
 		<title></title>
     <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
 	</head>
+	<link rel="stylesheet" href="css/public.css" />
 	<style>
-		@media only screen and (min-width: 750px) {
-			html {
-			font-size:100px!important
-			}
-		}
-		
-		@media only screen and (min-width: 1080px) {
-			html {
-			font-size:144px!important
-			}
-		}
 		.titile{
 			font-size: 0.28rem;
 		}
-		.flex{
-			display: flex;
+		.listshow{
+			background: #efeff4;
+			border-radius: 0.05rem;
+			padding: 0.09rem 0.08rem;
+			position: relative;
+			box-sizing: border-box;
+			margin-bottom: 0.1rem;
 		}
-		.wrap{
-			flex-wrap: wrap;
+		.content{
+			color: #010101;
+			overflow:hidden; 
+			text-overflow:ellipsis;
+			display:-webkit-box; 
+			-webkit-box-orient:vertical;
+			-webkit-line-clamp:2; 
 		}
-		.column{
-			flex-direction: column;
+		.time{
+			color: #ababae;
+			margin-bottom: 0.1rem;
 		}
-		.between{
-			justify-content: space-between;
+		.rightbubble{
+			right: -0.18rem;
+			border-color:transparent transparent transparent #efeff4; 
+			bottom:0.08rem;
 		}
-		.around{
-			justify-content: space-around;
+		.leftbubble{
+			left:-0.18rem;
+			border-color:transparent #efeff4 transparent transparent; 
+			top:0.08rem
 		}
-		.heightcenter{
-			align-items: center;
-		}
-		.widthcenter{
-			justify-content: center;
-		}
-		.allcenter{
-			align-items: center;
-			justify-content: center;
+		.addbuble{
+			position: absolute;
+			width:0;
+			height:0;
+			border-width:0.1rem;
+		    border-style:solid dashed dashed; 
+		    font-size:0; 
+		    line-height:0;
 		}
 	</style>
 	<body>
-		<div class="titile flex allcenter">
-			这是一个标题
+		<div class="bg">
+		</div>
+		<div class="all">
+			<div class="listshow">
+				<div class="time">
+					2018年5月16日 22:51 星期三
+				</div>
+				<div class="content">
+					编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛
+				</div>
+				<div class="rightbubble addbuble"></div>
+			</div>
+			<div class="listshow">
+				<div class="time">
+					2018年5月16日 22:51 星期三
+				</div>
+				<div class="content">
+					编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛
+				</div>
+				<div class="leftbubble addbuble"></div>
+			</div>
 		</div>
 	</body>
 </html>
+<script src="js/jquery.min.js"></script>
+<script src="js/lovechen.js"></script>
+<script type="text/javascript">
+	var tanchu = new Tanchu({
+		title:"编辑成功了呀琛琛"
+	})
+</script>

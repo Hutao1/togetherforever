@@ -1,0 +1,56 @@
+*{
+		margin: 0;
+		padding: 0;
+}
+@media only screen and (min-width: 375px) {
+			html {
+			font-size:100px!important
+			}
+		}
+		
+		@media only screen and (min-width: 414px) {
+			html {
+			font-size:144px!important
+			}
+		}
+		
+.flex{
+		display: flex;
+}
+.wrap{
+	flex-wrap: wrap;
+}
+.column{
+	flex-direction: column;
+}
+.between{
+	justify-content: space-between;
+}
+.around{
+	justify-content: space-around;
+}
+.heightcenter{
+	align-items: center;
+}
+.widthcenter{
+	justify-content: center;
+}
+.allcenter{
+	align-items: center;
+	justify-content: center;
+}
+body{
+	font-size: 0.15rem;
+}
+.bg{
+	position: fixed;
+	left: 0;
+	top: 0;
+	height: 100%;
+	width: 100%;
+	z-index: -1;
+	background: #fff;
+}
+.all{
+	padding: 0.1rem 0.2rem 0 0.2rem;
+}
