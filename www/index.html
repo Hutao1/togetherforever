@@ -85,6 +85,49 @@
 			  background: linear-gradient(to right,#506B94 0%, #5D78A1 25%,#6C87B0 50%,#5D78A1 75%,#506B94 100%);*/
 			 background: #efeff4;
 		}
+		.searchhtml{
+			position: fixed;
+			z-index: 777;
+			left: 0;
+			top: 0;
+			width: 0%;
+			height: 100%;
+			background: #fff;
+			display: none;
+		}
+		.searchcontent{
+			max-height: 100%;
+			overflow-y: auto;
+			overflow-x: hidden;
+			position: relative;
+		}
+		.search{
+			height: 0.48rem;
+			width: 100%;
+			border: 0;
+			background: #efeff4;
+			color: #010101;
+			font-size: 0.18rem;
+			padding-left:3% ;
+			box-sizing: border-box;
+		}
+		.searchlist{
+			display: none;
+			margin-top: 0.1rem;
+		}
+		input::-webkit-input-placeholder { /* WebKit browsers*/ 
+		　　color:#c7c7d1;
+		　　}
+		input:-moz-placeholder {  /* Mozilla Firefox 4 to 18*/ 
+		　　color:#c7c7d1;
+		　　}
+		input::-moz-placeholder {  /* Mozilla Firefox 19+*/ 
+		　　color:#c7c7d1;
+		　　}
+		input:-ms-input-placeholder { /* Internet Explorer 10+*/ 
+		　　color:#c7c7d1;
+		}
+		input {outline:none;}
 	</style>
 	<body>
 		<div class="bg">
@@ -108,6 +151,15 @@
 				</div>
 				<div class="leftbubble addbuble"></div>
 			</div>
+			<div class="listshow">
+				<div class="time">
+					2018年5月16日 22:51 星期三
+				</div>
+				<div class="content">
+					编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛
+				</div>
+				<div class="leftbubble addbuble"></div>
+			</div>
 		</div>
 		<div class="top flex allcenter column">
 			<div style="font-size: 0.2rem;margin-bottom: 0.2rem;">我们在一起already</div>
@@ -116,8 +168,31 @@
 				<div class="bottomcenter flex allcenter back">退</div>
 			</div>
 		</div>
+		<div class="searchhtml">
+			<div class="searchcontent">
+				<input type="text"  class="search" placeholder="搜索"/>
+				<div class="listshow searchlist">
+					<div class="time">
+						2018年5月16日 22:51 星期三
+					</div>
+					<div class="content">
+						编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛
+					</div>
+					<div class="rightbubble addbuble"></div>
+				</div>
+				<div class="listshow searchlist">
+					<div class="time">
+						2018年5月16日 22:51 星期三
+					</div>
+					<div class="content">
+						编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛
+					</div>
+					<div class="leftbubble addbuble"></div>
+				</div>
+			</div>
+		</div>
 		<div class="bottomlist flex heightcenter between">
-			<div>搜</div>
+			<div class="searchgo">搜</div>
 			<div class="bottomcenter flex allcenter editgo">攥</div>
 			<div class="timeshow">時</div>
 		</div>
@@ -144,9 +219,29 @@
 			$(".top").css({"display":"none"})
 		},1000)
 	})
-	
+	$(".searchgo").click(()=>{
+		$(".searchhtml").css({"display":"block"})
+		setTimeout(()=>{
+			$(".searchhtml").animate({"width":"100%"},1000)
+		},0)
+	})
+	$(".searchhtml").click(()=>{
+		$(".searchhtml").animate({"width":"0%"},1000)
+		$(".searchlist").remove()
+		setTimeout(()=>{
+			$(".searchhtml").css({"display":"none"})
+		},1000)
+	})
+	$(".searchcontent").click((event)=>{
+		event.stopPropagation(); 
+	})
+	$(".search").keyup(function(event){
+	  if(event.keyCode ==13){
+	    $(".searchlist").show()
+	  }
+	});
 	//时间展示
-	var that = new Date("2018-5-10 01:51:00").getTime()
+	var that = new Date("2018/5/10 01:51:00").getTime()
 	var now = new Date().getTime();
 	var during = parseInt((now - that)/1000)
 	timeget(during)
