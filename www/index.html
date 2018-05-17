@@ -49,6 +49,42 @@
 		    font-size:0; 
 		    line-height:0;
 		}
+		.bottomlist{
+			height: 0.48rem;
+			background: #fff;
+			position: fixed;
+			bottom: 0;
+			left: 0;
+			width: 100%;
+			padding:0 0.18rem;
+			box-sizing: border-box;
+			color: #e36978;
+			font-size: 0.18rem;
+		}
+		.bottomcenter{
+			font-size: 0.2rem;
+			width: 0.4rem;
+			height: 0.4rem;
+			background:#e36978 ;
+			color: #fff;
+			border-radius:50% ;
+		}
+		.top{
+			position: fixed;
+			z-index: 888;
+			display: none;
+			opacity: 0;
+			left: 0;
+			top: 0;
+			width: 100%;
+			height: 100%;
+			color: red;
+			  /*background: -webkit-linear-gradient(left,#506B94 0%, #5D78A1 25%,#6C87B0 50%,#5D78A1 75%,#506B94 100%); 
+			  background: -o-linear-gradient(left,#506B94 0%, #5D78A1 25%,#6C87B0 50%,#5D78A1 75%,#506B94 100%);
+			  background: -moz-linear-gradient(left,#506B94 0%, #5D78A1 25%,#6C87B0 50%,#5D78A1 75%,#506B94 100%); 
+			  background: linear-gradient(to right,#506B94 0%, #5D78A1 25%,#6C87B0 50%,#5D78A1 75%,#506B94 100%);*/
+			 background: #efeff4;
+		}
 	</style>
 	<body>
 		<div class="bg">
@@ -73,6 +109,18 @@
 				<div class="leftbubble addbuble"></div>
 			</div>
 		</div>
+		<div class="top flex allcenter column">
+			<div style="font-size: 0.2rem;margin-bottom: 0.2rem;">我们在一起already</div>
+			<div class="timeshowin" style="font-size: 0.25rem;"></div>
+			<div class="bottomlist flex allcenter"  style="bottom: 1rem;background: transparent;">
+				<div class="bottomcenter flex allcenter back">退</div>
+			</div>
+		</div>
+		<div class="bottomlist flex heightcenter between">
+			<div>搜</div>
+			<div class="bottomcenter flex allcenter editgo">攥</div>
+			<div class="timeshow">時</div>
+		</div>
 	</body>
 </html>
 <script src="js/jquery.min.js"></script>
@@ -81,4 +129,79 @@
 	var tanchu = new Tanchu({
 		title:"编辑成功了呀琛琛"
 	})
+	$(".editgo").click(()=>{
+		location.href = "detail.html"
+	})
+	$(".timeshow").click(()=>{
+		$(".top").css({"display":"flex"})
+		setTimeout(()=>{
+			$(".top").animate({"opacity":"1"},1000)
+		},0)
+	})
+	$(".back").click(()=>{
+		$(".top").animate({"opacity":"0"},1000)
+		setTimeout(()=>{
+			$(".top").css({"display":"none"})
+		},1000)
+	})
+	
+	//时间展示
+	var that = new Date("2018-5-10 01:51:00").getTime()
+	var now = new Date().getTime();
+	var during = parseInt((now - that)/1000)
+	timeget(during)
+	function timeget(during){
+		var days = parseInt(during/60/60/24)
+		during-=days*60*60*24
+		var h = parseInt(during/60/60)
+		during-=h*60*60
+		var min = parseInt(during/60)
+		during-=min*60
+		var s = during
+		if(s >= 60){
+				s = 0;
+				min++;
+				if(min >= 60){
+					min = 0;
+					h++;
+					if(h >= 24){
+						h = 0;
+						day++
+					}else{edittime(days,h,min,s)}
+				}else{edittime(days,h,min,s)}
+			}else{
+				edittime(days,h,min,s)
+			}
+		setInterval(()=>{
+			s++;
+			if(s >= 60){
+				s = 0;
+				min++;
+				if(min >= 60){
+					min = 0;
+					h++;
+					if(h >= 24){
+						h = 0;
+						day++
+					}else{edittime(days,h,min,s)}
+				}else{edittime(days,h,min,s)}
+			}else{
+				edittime(days,h,min,s)
+			}
+		},1000)
+	}
+	function edittime(days,h,min,s){
+		var dayst = days,ht = h,mint = min,st = s;
+		if(ht < 10){
+			ht = "0"+h;
+		}
+		if(mint < 10){
+			mint = "0"+min;
+		}
+		if(st < 10){
+			st = "0"+s
+		}
+		$(".timeshowin").html(dayst+"天"+ht+"时"+mint+"分"+st+"秒") 
+	}
+
 </script>
