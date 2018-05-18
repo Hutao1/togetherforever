@@ -88,9 +88,9 @@
 		.searchhtml{
 			position: fixed;
 			z-index: 777;
-			left: 0;
+			left: -100%;
 			top: 0;
-			width: 0%;
+			width: 100%;
 			height: 100%;
 			background: #fff;
 			display: none;
@@ -115,6 +115,15 @@
 			display: none;
 			margin-top: 0.1rem;
 		}
+		.totop{
+			position: absolute;
+			right: 0.2rem;
+			top: 0.05rem;
+		}
+		.totop>img{
+			width: 0.3rem;
+			height: 0.3rem;
+		}
 		input::-webkit-input-placeholder { /* WebKit browsers*/ 
 		　　color:#c7c7d1;
 		　　}
@@ -137,6 +146,9 @@
 				<div class="time">
 					2018年5月16日 22:51 星期三
 				</div>
+					<div class="totop">
+						<img src="img/totopfalse.png" alt="" />
+					</div>
 				<div class="content">
 					编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛
 				</div>
@@ -146,6 +158,9 @@
 				<div class="time">
 					2018年5月16日 22:51 星期三
 				</div>
+				<div class="totop">
+						<img src="img/totopfalse.png" alt="" />
+					</div>
 				<div class="content">
 					编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛
 				</div>
@@ -155,6 +170,9 @@
 				<div class="time">
 					2018年5月16日 22:51 星期三
 				</div>
+				<div class="totop">
+						<img src="img/totopfalse.png" alt="" />
+					</div>
 				<div class="content">
 					编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛
 				</div>
@@ -201,11 +219,24 @@
 <script src="js/jquery.min.js"></script>
 <script src="js/lovechen.js"></script>
 <script type="text/javascript">
-	var tanchu = new Tanchu({
+	/*var tanchu = new Tanchu({
 		title:"编辑成功了呀琛琛"
-	})
+	})*/
+	$('.searchhtml').height($('.searchhtml').height());
 	$(".editgo").click(()=>{
-		location.href = "detail.html"
+		var data = {
+			type:"add"
+		}
+		data = JSON.stringify(data);
+		location.href = "detail.html?data="+data
+	})
+	//更改置顶
+	$(".totop>img").click(function(){
+		if($(this).attr("src").indexOf("false") > -1){
+			$(this).attr("src","img/totoptrue.png")
+		}else{
+			$(this).attr("src","img/totopfalse.png")
+		}
 	})
 	$(".timeshow").click(()=>{
 		$(".top").css({"display":"flex"})
@@ -222,11 +253,11 @@
 	$(".searchgo").click(()=>{
 		$(".searchhtml").css({"display":"block"})
 		setTimeout(()=>{
-			$(".searchhtml").animate({"width":"100%"},1000)
+			$(".searchhtml").animate({"left":"0%"},1000)
 		},0)
 	})
 	$(".searchhtml").click(()=>{
-		$(".searchhtml").animate({"width":"0%"},1000)
+		$(".searchhtml").animate({"left":"-100%"},1000)
 		$(".searchlist").remove()
 		setTimeout(()=>{
 			$(".searchhtml").css({"display":"none"})
