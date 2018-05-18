@@ -7,13 +7,23 @@
 	</head>
 	<link rel="stylesheet" href="css/public.css" />
 	<style type="text/css">
+		.timetop{
+			position: absolute;
+			height: 6.5%;
+			left: 50%;
+			transform: translateX(-50%);
+			width: 80%;
+			box-sizing: border-box;
+			border-bottom:0.04rem solid #000 ;
+			font-weight: bolder;
+		}
 		.textcontent{
-			height: 100%;
+			height: 93.5%;
 			width: 90%;
 			font-size: 0.15rem;
 			position: absolute;
 			right: 0;
-			top: 0;
+			bottom: 0;
 			border: 0;
 			background: transparent;
 		}
@@ -78,6 +88,7 @@
 	</style>
 	<body>
 		<div class="bg2">
+			<div class="timetop flex allcenter"></div>
 			<textarea name="" rows="" cols="" class="textcontent"></textarea>
 			<div class="flex column btn">
 				<div class="togglecolor">色
@@ -116,6 +127,7 @@
 	{
 	    $(".textcontent").css("height","100%");
 	});*/
+	gettimetop();
 	$('.bg2').height($('.bg2').height());
 	console.log($('.bg2').height())
 	$(".colorchoose>div>div").click(function(){
@@ -153,4 +165,47 @@
         })(event.target.files[0]);
         reader.readAsDataURL(event.target.files[0]);
 	})
+	function gettimetop(){
+		var now = new Date();
+		var year = now.getFullYear();
+		var month = now.getMonth()+1;
+		var days = now.getDate();
+		var hours = now.getHours();
+		var min = now.getMinutes()
+		var week = now.getDay();
+		$(".timetop").html(getdoublenum(year)+"年"+getdoublenum(month)+"月"+getdoublenum(days)+"日"+getdoublenum(hours)+":"+getdoublenum(min)+" "+getweek(week))
+	}
+	function getdoublenum(num){
+		if(num < 10){
+			num ="0"+num;
+		}
+		return num;
+	}
+	function getweek(num){
+		var str = "";
+		switch(num){
+			case 0:
+				str = "星期日";
+				break;
+			case 1:
+				str = "星期一";
+				break;
+			case 2:
+				str = "星期二";
+				break;
+			case 3:
+				str = "星期三";
+				break;
+			case 4:
+				str = "星期四";
+				break;
+			case 5:
+				str = "星期五";
+				break;
+			case 6:
+				str = "星期六";
+				break;
+		}
+		return str;
+	}
 </script>
