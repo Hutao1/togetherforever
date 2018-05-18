@@ -14,8 +14,9 @@
 			transform: translateX(-50%);
 			width: 80%;
 			box-sizing: border-box;
-			border-bottom:0.04rem solid #000 ;
+			border-bottom:0.04rem solid #666 ;
 			font-weight: bolder;
+			color: #666;
 		}
 		.textcontent{
 			height: 93.5%;
@@ -173,7 +174,7 @@
 		var hours = now.getHours();
 		var min = now.getMinutes()
 		var week = now.getDay();
-		$(".timetop").html(getdoublenum(year)+"年"+getdoublenum(month)+"月"+getdoublenum(days)+"日"+getdoublenum(hours)+":"+getdoublenum(min)+" "+getweek(week))
+		$(".timetop").html(getdoublenum(year)+"年"+getdoublenum(month)+"月"+getdoublenum(days)+"日 "+getdoublenum(hours)+":"+getdoublenum(min)+" "+getweek(week))
 	}
 	function getdoublenum(num){
 		if(num < 10){
