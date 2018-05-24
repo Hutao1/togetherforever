@@ -20,13 +20,20 @@
 		}
 		.textcontent{
 			height: 93.5%;
-			width: 90%;
+			width: 80%;
 			font-size: 0.15rem;
+			box-sizing: border-box;
+			padding-bottom: 10%;
 			position: absolute;
-			right: 0;
+			right: 10%;
 			bottom: 0;
 			border: 0;
 			background: transparent;
+			outline: none;
+			overflow: auto;
+		}
+		.textcontent>img{
+			display: block;
 		}
 		textarea{outline: none;}
 		.bg2{
@@ -39,7 +46,7 @@
 		.btn{
 			position: absolute;
 			left: 0.05rem;
-			top: 20%;
+			top: 25%;
 			transform: translateY(-50%);
 		}
 		.btn>div{
@@ -67,7 +74,7 @@
 		.colorchoose>div>div.active{
 			border: 1px solid #000;
 		}
-		.photochoose{
+		.photochoose,.addphoto{
 			width: 0.3rem;
 			height: 0.3rem;
 			box-sizing: border-box;
@@ -90,7 +97,7 @@
 	<body>
 		<div class="bg2">
 			<div class="timetop flex allcenter"></div>
-			<textarea name="" rows="" cols="" class="textcontent"></textarea>
+			<div  class="textcontent" contenteditable="true"></div>
 			<div class="flex column btn">
 				<div class="togglecolor">色
 					<div class="colorchoose">
@@ -107,6 +114,8 @@
 				<div class="goback">退</div>
 				<div style="position: relative;">图
 				<input type="file" class="photochoose" /></div>
+				<div style="position: relative;">贴
+				<input type="file" class="addphoto" /></div>
 			</div>
 			<img class="photo" src="" alt="" />
 		</div>
@@ -138,11 +147,23 @@
 	$(".togglecolor").click(function(){
 		$(".colorchoose").toggle(1000);
 	})
+	$(".addphoto").change(function(event){
+		var reader = new FileReader();
+        reader.onload = (function (file) {
+        	return function (event) {
+        		var addimg = $('<img />')
+        		addimg.attr('src',this.result);
+        		$(".textcontent").append(addimg);
+        		addimg.css({width:'100%'})
+        	}
+        })(event.target.files[0]);
+        reader.readAsDataURL(event.target.files[0]);
+	})
 	$(".photochoose").change(function(event){
-		var orientationforword = -1;
+		/*var orientationforword = -1;
 		getOrientation(event.target.files[0], function(orientation) {
 	    orientationforword = orientation
-	  });
+	  });*/
 		var reader = new FileReader();
         reader.onload = (function (file) {
           return function (event) {
