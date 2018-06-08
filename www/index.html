@@ -137,6 +137,47 @@
 		　　color:#c7c7d1;
 		}
 		input {outline:none;}
+		.model{
+			position: fixed;
+			display: none;
+			left: 0;
+			top: 0;
+			width: 100%;
+			height: 100%;
+			z-index: 999;
+		}
+		.question{
+			position: fixed;left: 0;top: 0;
+			width: 100%;
+			height: 100%;
+			background: #fff;
+			z-index: 1000;
+			display: none;
+		}
+		.questioncontent{
+			width: 2rem;
+			height: 1.5rem;
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			transform: translate(-50%,-50%);
+		}
+		.answer{
+			display: block;
+			margin: 0 auto;
+			border: 1px solid #000;
+			outline: none;
+		}
+		.questionbtn{
+			text-align: center;
+			width: 1.2rem;
+			margin: 0 auto;
+			background: #FF0000;
+			color: #fff;
+			margin-top: 0.2rem;
+			padding: 0.05rem 0;
+			border-radius:0.1rem ;
+		}
 	</style>
 	<body>
 		<div class="bg">
@@ -214,6 +255,20 @@
 			<div class="bottomcenter flex allcenter editgo">攥</div>
 			<div class="timeshow">時</div>
 		</div>
+		<div class="model">
+			<div class="loader">
+			    <svg class="circular" viewBox="25 25 50 50">
+			      <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>
+			    </svg>
+			</div>
+		</div>
+		<div class="question">
+			<div class="questioncontent">
+				<span style="display: block;text-align: center;margin-bottom: 0.2rem;">你另一半名字叫啥呀，好好回答，这是一辈子的事哟</span>
+				<input type="text" class="answer"/>
+				<div class="questionbtn">我愿意我愿意</div>
+			</div>
+		</div>
 	</body>
 </html>
 <script src="js/jquery.min.js"></script>
@@ -222,6 +277,27 @@
 	/*var tanchu = new Tanchu({
 		title:"编辑成功了呀琛琛"
 	})*/
+	if(!localStorage.getItem("islogin")){
+		$(".question").show()
+	}else{
+		getList()
+	}
+	$(".questionbtn").click(function(){
+		if($(".answer").val() == "胡涛"){
+			localStorage.setItem("id",1)
+			localStorage.setItem("islogin",true)
+			$(".question").hide(500)
+		}else if($(".answer").val() == "许亚琛"){
+			localStorage.setItem("id",2)
+			localStorage.setItem("islogin",true)
+			$(".question").hide(500)
+		}
+	})
+	$(".model").on('touchmove',function(e){
+		var e = e || event;
+		e.preventDefault();
+		e.stopPropagation();
+	})
 	$('.searchhtml').height($('.searchhtml').height());
 	$(".editgo").click(()=>{
 		var data = {
@@ -329,5 +405,21 @@
 		}
 		$(".timeshowin").html(dayst+"天"+ht+"时"+mint+"分"+st+"秒") 
 	}
-
+	//获取list
+	function getList(){
+		console.log(111)
+		/*var data = {
+			id:localStorage.getItem("id")
+		}*/
+		var data = 'id='+localStorage.getItem("id")
+		$.ajax({type:"get",
+				url:'http://47.106.173.93:8080/House/rest/api/memorandum/GetMemorandum.json',
+				data:data,
+//				contentType:"application/json",
+				contentType:"application/x-www-form-urlencoded;charset=UTF-8",
+				success:function(res){
+					console.log(res)
+				}})
+	}
+	
 </script>
