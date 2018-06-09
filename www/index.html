@@ -314,17 +314,22 @@
 		e.stopPropagation();
 		var _this = this;
 		new Secondtrue({title:"你确定要删除吗",callback:function(){
-			$.ajax({type:"post",
-				url:'http://47.106.173.93:8080/House/rest/api/memorandum/remove.json',
-				data:{id:$(_this).parent().parent().data("id")},
-//				contentType:"application/json;charset=UTF-8",
-				contentType:"application/x-www-form-urlencoded;charset=UTF-8",
-				success:function(res){
-					if(res.stateCode == 0){
-						new Tanchu({title:"删除成功"})
-						getList();
-					}
+			if(localStorage.getItem("id") == $(_this).parent().parent().data("sort")){
+				$.ajax({type:"post",
+					url:'http://47.106.173.93:8080/House/rest/api/memorandum/remove.json',
+					data:{id:$(_this).parent().parent().data("id")},
+	//				contentType:"application/json;charset=UTF-8",
+					contentType:"application/x-www-form-urlencoded;charset=UTF-8",
+					success:function(res){
+						if(res.stateCode == 0){
+							new Tanchu({title:"删除成功"})
+							getList();
+						}
 				}})
+			}else{
+				new Tanchu({title:"你不能删除呀"})
+			}
+			
 		}})
 		
 	})

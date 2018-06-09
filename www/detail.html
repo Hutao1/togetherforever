@@ -125,7 +125,6 @@
 <script src="js/lovechen.js"></script>
 <script type="text/javascript">
 	$(".goback").click(()=>{
-		if(sort == localStorage.getItem("id")){
 			if(type == "add"){
 				if($(".textcontent").html() == ""){
 					history.back()
@@ -144,7 +143,7 @@
 							}
 						}})
 				}
-			}else if(type=="edit"){
+			}else if(type=="edit" && sort == localStorage.getItem("id")){
 				$.ajax({type:"post",
 						url:'http://47.106.173.93:8080/House/rest/api/memorandum/update.json',
 						data:{content:$(".textcontent").html(),id:id},
@@ -158,11 +157,9 @@
 								},1000)
 							}
 						}})
+			}else{
+				history.go(-1)
 			}
-		
-		}else{
-			history.go(-1)
-		}
 		
 		
 	})
