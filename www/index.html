@@ -112,7 +112,6 @@
 			box-sizing: border-box;
 		}
 		.searchlist{
-			display: none;
 			margin-top: 0.1rem;
 		}
 		.totop{
@@ -183,42 +182,19 @@
 		<div class="bg">
 		</div>
 		<div class="all">
-			<div class="listshow">
+			<!--<div class="listshow">
 				<div class="time">
 					2018年5月16日 22:51 星期三
 				</div>
-					<div class="totop">
+					<div class="totop flex allcenter">
 						<img src="img/totopfalse.png" alt="" />
+						<img src="img/delete.png" alt="" style="width: 0.2rem; height: 0.2rem;"/>
 					</div>
 				<div class="content">
 					编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛
 				</div>
 				<div class="rightbubble addbuble"></div>
-			</div>
-			<div class="listshow">
-				<div class="time">
-					2018年5月16日 22:51 星期三
-				</div>
-				<div class="totop">
-						<img src="img/totopfalse.png" alt="" />
-					</div>
-				<div class="content">
-					编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛
-				</div>
-				<div class="leftbubble addbuble"></div>
-			</div>
-			<div class="listshow">
-				<div class="time">
-					2018年5月16日 22:51 星期三
-				</div>
-				<div class="totop">
-						<img src="img/totopfalse.png" alt="" />
-					</div>
-				<div class="content">
-					编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛
-				</div>
-				<div class="leftbubble addbuble"></div>
-			</div>
+			</div>-->
 		</div>
 		<div class="top flex allcenter column">
 			<div style="font-size: 0.2rem;margin-bottom: 0.2rem;">我们在一起already</div>
@@ -230,24 +206,17 @@
 		<div class="searchhtml">
 			<div class="searchcontent">
 				<input type="text"  class="search" placeholder="搜索"/>
-				<div class="listshow searchlist">
-					<div class="time">
-						2018年5月16日 22:51 星期三
-					</div>
-					<div class="content">
-						编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛
-					</div>
-					<div class="rightbubble addbuble"></div>
+				<div class="searchhere">
+					<!--<div class="listshow searchlist">
+						<div class="time">
+							2018年5月16日 22:51 星期三
+						</div>
+						<div class="content">
+							编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛
+						</div>
+					</div>-->
 				</div>
-				<div class="listshow searchlist">
-					<div class="time">
-						2018年5月16日 22:51 星期三
-					</div>
-					<div class="content">
-						编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛
-					</div>
-					<div class="leftbubble addbuble"></div>
-				</div>
+				
 			</div>
 		</div>
 		<div class="bottomlist flex heightcenter between">
@@ -300,19 +269,64 @@
 	})
 	$('.searchhtml').height($('.searchhtml').height());
 	$(".editgo").click(()=>{
-		var data = {
-			type:"add"
-		}
-		data = JSON.stringify(data);
-		location.href = "detail.html?data="+data
+		location.href = "detail.html?type=add"
+	})
+	//从list去编辑页面
+	$(".searchhere,.all").on('click','.listshow',function(){
+		location.href = "detail.html?type=edit&id="+$(this).data('id')+"&sort="+$(this).data('sort')
 	})
 	//更改置顶
-	$(".totop>img").click(function(){
+	$(".all").on('click','.toppicture',function(e){
+		var e = e || event;
+		e.stopPropagation();
 		if($(this).attr("src").indexOf("false") > -1){
 			$(this).attr("src","img/totoptrue.png")
+			//置顶
+			$.ajax({type:"post",
+				url:'http://47.106.173.93:8080/House/rest/api/memorandum/toTop.json',
+				data:{id:$(this).parent().parent().data("id")},
+//				contentType:"application/json;charset=UTF-8",
+				contentType:"application/x-www-form-urlencoded;charset=UTF-8",
+				success:function(res){
+					if(res.stateCode == 0){
+						new Tanchu({title:"置顶成功"})
+					}
+				}})
 		}else{
 			$(this).attr("src","img/totopfalse.png")
+			//取消置顶
+			$.ajax({type:"post",
+				url:'http://47.106.173.93:8080/House/rest/api/memorandum/noTop.json',
+				data:{id:$(this).parent().parent().data("id")},
+//				contentType:"application/json;charset=UTF-8",
+				contentType:"application/x-www-form-urlencoded;charset=UTF-8",
+				success:function(res){
+					if(res.stateCode == 0){
+						new Tanchu({title:"取消置顶成功"})
+					}
+				}})
 		}
+		
+	})
+	//删除操作
+	$(".all").on('click','.delpicture',function(e){
+		var e = e || event;
+		e.stopPropagation();
+		var _this = this;
+		new Secondtrue({title:"你确定要删除吗",callback:function(){
+			$.ajax({type:"post",
+				url:'http://47.106.173.93:8080/House/rest/api/memorandum/remove.json',
+				data:{id:$(_this).parent().parent().data("id")},
+//				contentType:"application/json;charset=UTF-8",
+				contentType:"application/x-www-form-urlencoded;charset=UTF-8",
+				success:function(res){
+					if(res.stateCode == 0){
+						new Tanchu({title:"删除成功"})
+						getList();
+					}
+				}})
+		}})
+		
 	})
 	$(".timeshow").click(()=>{
 		$(".top").css({"display":"flex"})
@@ -344,7 +358,7 @@
 	})
 	$(".search").keyup(function(event){
 	  if(event.keyCode ==13){
-	    $(".searchlist").show()
+	    getSCList();
 	  }
 	});
 	//时间展示
@@ -407,19 +421,62 @@
 	}
 	//获取list
 	function getList(){
-		console.log(111)
-		/*var data = {
-			id:localStorage.getItem("id")
-		}*/
-		var data = 'id='+localStorage.getItem("id")
-		$.ajax({type:"get",
-				url:'http://47.106.173.93:8080/House/rest/api/memorandum/GetMemorandum.json',
+		var data = {
+			content:""
+		}
+//		var data = 'id='+localStorage.getItem("id")
+		$.ajax({type:"post",
+				url:'http://47.106.173.93:8080/House/rest/api/memorandum/list.json',
 				data:data,
-//				contentType:"application/json",
+//				contentType:"application/json;charset=UTF-8",
 				contentType:"application/x-www-form-urlencoded;charset=UTF-8",
 				success:function(res){
-					console.log(res)
+					if(res.stateCode == 0){
+						showFTList(res)
+					}
+								/*<div class="listshow searchlist">
+									<div class="time">
+										2018年5月16日 22:51 星期三
+									</div>
+									<div class="content">
+										编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛
+									</div>
+									<div class="rightbubble addbuble"></div>
+								</div>*/
+
 				}})
 	}
-	
+	//获取查询list
+	function getSCList(){
+		var data = {
+			content:$(".search").val()
+		}
+//		var data = 'id='+localStorage.getItem("id")
+		$.ajax({type:"post",
+				url:'http://47.106.173.93:8080/House/rest/api/memorandum/list.json',
+				data:data,
+//				contentType:"application/json;charset=UTF-8",
+				contentType:"application/x-www-form-urlencoded;charset=UTF-8",
+				success:function(res){
+					if(res.stateCode == 0){
+						showSCList(res)
+					}
+								/*<div class="listshow">
+									<div class="time">
+										2018年5月16日 22:51 星期三
+									</div>
+										<div class="totop flex allcenter">
+											<img src="img/totopfalse.png" alt="" />
+											<img src="img/delete.png" alt="" style="width: 0.2rem; height: 0.2rem;"/>
+										</div>
+									<div class="content">
+										编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛编辑成功了呀琛琛
+									</div>
+								</div>*/
+
+				}})
+	}
+	/*new Secondtrue({title:"你确定要删除吗",callback:function(){
+		console.log('我试试输出几次')
+	}});*/
 </script>

@@ -125,7 +125,46 @@
 <script src="js/lovechen.js"></script>
 <script type="text/javascript">
 	$(".goback").click(()=>{
-		history.back()
+		if(sort == localStorage.getItem("id")){
+			if(type == "add"){
+				if($(".textcontent").html() == ""){
+					history.back()
+				}else{
+					$.ajax({type:"post",
+						url:'http://47.106.173.93:8080/House/rest/api/memorandum/save.json',
+						data:{content:$(".textcontent").html(),sort:localStorage.getItem("id")},
+		//				contentType:"application/json;charset=UTF-8",
+						contentType:"application/x-www-form-urlencoded;charset=UTF-8",
+						success:function(res){
+							if(res.stateCode == 0){
+								new Tanchu({title:"保存成功"})
+								setTimeout(function(){
+									history.back()
+								},1000)
+							}
+						}})
+				}
+			}else if(type=="edit"){
+				$.ajax({type:"post",
+						url:'http://47.106.173.93:8080/House/rest/api/memorandum/update.json',
+						data:{content:$(".textcontent").html(),id:id},
+		//				contentType:"application/json;charset=UTF-8",
+						contentType:"application/x-www-form-urlencoded;charset=UTF-8",
+						success:function(res){
+							if(res.stateCode == 0){
+								new Tanchu({title:"更新成功"})
+								setTimeout(function(){
+									history.back()
+								},1000)
+							}
+						}})
+			}
+		
+		}else{
+			history.go(-1)
+		}
+		
+		
 	})
 	/*$(".textcontent").focus(function()
 	{
@@ -136,9 +175,35 @@
 	{
 	    $(".textcontent").css("height","100%");
 	});*/
-	gettimetop();
+	//获取type区别新增和编辑
+	if(location.href.split("?")[1].indexOf("add") > -1){
+		//增加
+		gettimetop();
+		var type ="add"
+	}else{
+		//编辑
+		var type ="edit"
+		var id = location.href.split("?")[1].split("&")[1].split("=")[1];
+		var sort = location.href.split("?")[1].split("&")[2].split("=")[1];
+		console.log(sort)
+		$.ajax({type:"post",
+				url:'http://47.106.173.93:8080/House/rest/api/memorandum/GetMemorandum.json',
+				data:{id:id},
+//				contentType:"application/json;charset=UTF-8",
+				contentType:"application/x-www-form-urlencoded;charset=UTF-8",
+				success:function(res){
+					if(res.stateCode == 0){
+						console.log(res)
+						if(res.updateTime){
+							$(".timetop").html(getTime(res.updateTime))							
+						}else{
+							$(".timetop").html(getTime(res.createTime))			
+						}
+						$(".textcontent").html(res.content)
+					}
+				}})
+	}
 	$('.bg2').height($('.bg2').height());
-	console.log($('.bg2').height())
 	$(".colorchoose>div>div").click(function(){
 		$(this).addClass("active").siblings().removeClass("active")
 		$(".bg2").css({background:$(this).css("backgroundColor")})
